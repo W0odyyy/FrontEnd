@@ -31,7 +31,6 @@ projectItems.forEach((projectItem) => {
 
 	const projectListedItem = document.createElement("li");
 	projectListedItem.classList.add("project");
-	projectListedItem.textContent = projectTitle;
 
 	const projectLiLink = document.createElement("a");
 	projectLiLink.href = projectURL;
