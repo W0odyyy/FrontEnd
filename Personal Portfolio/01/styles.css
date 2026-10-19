@@ -1,0 +1,64 @@
+/* Golden Summer Fields pastel palette from coolers.co 
+Text: Deep Navy Blue HEX: #0B1B3D and Dark Forest Green HEX: #0A2E16
+Background: #fefae0 */
+
+body {
+	font-family: "Open Sans", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+	color: #0b1b3d;
+	background-color: #fefae0;
+}
+
+h1,
+h2,
+h3 {
+	font-family: "Montserrat", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 600;
+	font-style: normal;
+	color: #0a2e16;
+}
+
+header {
+	position: sticky;
+	top: 0;
+	width: 100%;
+	max-width: 1200px;
+	max-height: 40px;
+	margin: 0 auto;
+	padding: 0.5rem 2rem;
+	background: #d4a37385;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid #4e706f;
+	backdrop-filter: blur(1px);
+	border-radius: 20px;
+	transform: translateY(0px);
+	z-index: 10;
+}
+
+#bio-card {
+	width: 100%;
+}
+
+#bio-card img {
+	width: 400px;
+	height: 100%;
+	object-fit: cover;
+}
+
+#bio-paras {
+	width: 400px;
+	justify-content: right;
+}
+
+ul {
+	list-style-type: circle;
+}
+
+.project {
+	background-color: #ccd5ae;
+}
