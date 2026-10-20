@@ -65,26 +65,51 @@ header {
 	justify-content: right;
 }
 
+/* Project List styling */
+
 ul {
 	list-style-type: none;
+}
+
+.project {
+	background: #ccd5ae;
+	border: 0px #4e706f;
+	backdrop-filter: blur(0px);
+	border-radius: 10px;
+	margin: 0 auto;
+	text-align: center;
+	padding: 15px;
+	transition: 0.3s ease;
+	max-width: 1000px;
+	max-height: 10px;
+	overflow: hidden;
+}
+
+.project:hover {
+	background: #d4a373;
+	border: 1px solid #4e706f;
+}
+
+.project.active {
+	background: #d4a373;
+	max-height: 100px;
 }
 
 .project a {
 	display: flex;
 	justify-content: center;
 	font-size: 1.25rem;
+	margin-bottom: 30px;
+	margin-left: 25rem;
+	margin-right: 25rem;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 2px;
+	cursor: pointer;
 }
 
 .project p {
-	background: #d4a37385;
+	max-height: 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border: 1px #4e706f;
-	backdrop-filter: blur(0px);
-	border-radius: 10px;
-	max-width: 1000px;
-	margin: 0 auto;
-	text-align: center;
-	padding: 15px;
 }

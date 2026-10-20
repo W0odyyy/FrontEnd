@@ -1,23 +1,29 @@
+/* Project list content and creation */
+
 const projectItems = [
 	{
 		title: "Project 1",
 		URL: "#",
-		Description: "Description of what project 1 does and what I learned doing it.",
+		Description:
+			"Description of what project 1 does and what I learned doing it. Description of what project 1 does and what I learned doing it.",
 	},
 	{
 		title: "Project 2",
 		URL: "#",
-		Description: "Description of what project 2 does and what I learned doing it.",
+		Description:
+			"Description of what project 2 does and what I learned doing it. Description of what project 2 does and what I learned doing it.",
 	},
 	{
 		title: "Project 3",
 		URL: "#",
-		Description: "Description of what project 3 does and what I learned doing it.",
+		Description:
+			"Description of what project 3 does and what I learned doing it. Description of what project 3 does and what I learned doing it. ",
 	},
 	{
 		title: "Project 4",
 		URL: "#",
-		Description: "Description of what project 4 does and what I learned doing it.",
+		Description:
+			"Description of what project 4 does and what I learned doing it. Description of what project 4 does and what I learned doing it.",
 	},
 ];
 
@@ -42,6 +48,12 @@ projectItems.forEach((projectItem) => {
 
 	projectListedItem.appendChild(projectLiLink);
 	projectListedItem.appendChild(projectLiPara);
+
+	projectListedItem.addEventListener("click", () => {
+		projectListedItem.classList.toggle("active");
+		//projectLiPara.classList.toggle("active");
+		//projectLiLink.classList.toggle("active");
+	});
 
 	projectList.appendChild(projectListedItem);
 });
