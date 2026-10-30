@@ -70,6 +70,7 @@ class Product extends DatabaseObject {
 
 class Delivery extends DatabaseObject {
 	constructor(scheduledTime, address, product, quantity) {
+		super();
 		this.address = address;
 		this.product = product;
 		this.scheduledTime = scheduledTime;
@@ -119,8 +120,15 @@ class SessionStorageProductDAO extends ProductDao {
 	}
 
 	getAll() {
-		const productsAsJSON = this.database.getItem("products");
-		return productsAsJSON ? JSON.parse(productsAsJSON) : ProductDAO.seeds;
+		const productsJSON = this.database.getItem("products");
+		const productsData = productsJSON ? JSON.parse(productsJSON) : ProductDAO.seeds;
+		return productsData.map((productData) => Product.create(productData));
+	}
+
+	getProductByName(name) {
+		return this.getAll().find((product) => {
+			return product.name == name;
+		});
 	}
 
 	update(product) {
@@ -137,11 +145,53 @@ class SessionStorageProductDAO extends ProductDao {
 
 class CookieStorageProductDAO extends ProductDAO {
 	constructor() {
-		this.database = document.cookie;
+		super();
+		this.database = sessionStorage;
+		//this.database = document.cookie;
+		// this.database.setItem("products", JSON.stringify(productsList));
 	}
 }
 
-class CookieStorageProductDAO extends ProductDAO {}
+class CookieStorageProductDAO extends ProductDAO {
+	constructor() {
+		super();
+		this.database = sessionStorage;
+		// this.database.setItem("products", JSON.stringify(ProductDAO.seeds));
+	}
+
+	getAll() {
+		const existingCookieValue = document.cookie
+			.split("; ")
+			.find((row) => row.startsWith("products="));
+
+		if (!existingCookieValue)
+			return ProductDAO.seeds.map((productData) => Product.create(productData));
+
+		const productsData = JSON.parse(existingCookieValue.split("=")[1]);
+		return productsData.map((productData) => Product.create(productData));
+	}
+
+	getProductByName(name) {
+		return this.getAll().find((product) => {
+			return product.name == name;
+		});
+	}
+
+	update(product) {
+		const productsList = this.getAll();
+
+		const indexToDelete = productsList.findIndex(
+			(productInList) => productInList.name == product.name,
+		);
+
+		productsList.splice(indexToDelete, 1, product);
+
+		document.cookie = `products=${JSON.stringify(productsList)}; max-age=30`;
+	}
+}
+
+// const productDAO = new SessionStorageProductDAO();
+const productDAO = new CookieStorageProductDAO();
 
 class DeliveryDAO {
 	getAll() {
@@ -167,7 +217,7 @@ class SessionStorageDeliveryDAO extends DeliveryDAO {
 	}
 }
 
-class CookieStorageDeliverDAO extends DeliveryDAO {
+class CookieStorageDeliveryDAO extends DeliveryDAO {
 	constructor() {
 		super();
 		this.database = sessionStorage;
@@ -232,3 +282,39 @@ productDAO.getAll().forEach((product, index) => {
 });
 
 productNameSelection.addEventListener("change", setMaxQuantityForInput);
+
+const scheduledTimeInput = document.getElementById("scheduled-time");
+const today = new Date();
+const year = today.getFullYear();
+const month = String(today.getMonth() + 1).padStart(2, "0");
+const day = String(today.getDate()).padStart(2, "0");
+const formattedDate = `${year}-${month}-${day}`;
+
+scheduledTimeInput.value = formattedDate;
+
+const deliveryForm = document.getElementById("delivery-form");
+
+deliveryForm.addEventListener("submit", (event) => {
+	const submittedFormData = new FormData(deliveryForm);
+	const formData = Object.fromEntries(submittedFormData.entries());
+
+	const productName = formData["product-name"];
+	const productQuantity = formData["product-quantity"];
+	const address = formData["address"];
+	const scheduledTime = formData["scheduled-time"];
+
+	const selectedProduct = productDAO.getProductByName(productName);
+	createDeliveryService.createDelivery(
+		productName,
+		productQuantity,
+		address,
+		scheduledTime,
+	);
+});
+
+const ongoingDeliveriesList = document.getElementById("ongoing-deliveries");
+deliveryDAO.getAll().forEach((delivery) => {
+	const deliveryListItem = document.createElement("li");
+	deliveryListItem.innerText = delivery.toString();
+	ongoingDeliveriesList.appendChild(deliveryListItem);
+});
