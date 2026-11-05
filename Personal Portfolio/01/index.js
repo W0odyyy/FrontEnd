@@ -167,7 +167,105 @@ class SessionStorageTestimonialDAO extends TestimonialDAO {
 		const data = dataJSON ? JSON.parse(dataJSON) : TestimonialDAO.seedData;
 
 		return {
-			references: data.references.map,
+			references: data.references.map((r) => Reference.create(r)),
+			testimonials: data.testimonials.map((t) => Testimonial.create(t)),
 		};
 	}
+
+	create(testimonial, reference) {
+		const dataJSON = this.database.getItem("portfolio_data");
+		const data = dataJSON ? JSON.parse(dataJSON) : TestimonialDAO.seedData;
+
+		let existingRef = data.references.find((r) => r.email === reference.email);
+		let refId = existingRef ? existingRef.id : "ref-" + Date.now();
+
+		if (!existingRef) {
+			reference.id = refId;
+			data.references.push({
+				id: reference.id,
+				name: reference.name,
+				email: reference.email,
+				company: reference.company,
+			});
+		}
+
+		testimonial.referenceId = refId;
+		data.testimonials.push({
+			comment: testimonial.comment,
+			rating: testimonial.rating,
+			referenceId: testimonial.referenceId,
+		});
+
+		this.database.setItem("portfolio_data", JSON.stringify(data));
+	}
 }
+
+class CookieStorageTestimonialDAO extends TestimonialDAO {
+	constructor() {
+		super();
+		if (!this.getCookieData()) {
+			this.setCookieData(TestimonialDAO.seedData);
+		}
+	}
+
+	getCookieData() {
+		const existingCookie = document.cookie
+			.split(";")
+			.find((row) => row.startsWith("portfolio_data="));
+
+		if (!existingCookie) return null;
+		return JSON.parse(existingCookie.split("=")[1]);
+	}
+
+	setCookieData(dataObj) {
+		const jsonStr = JSON.stringify(dataObj);
+		document.cookie = `portfolio_data=${jsonStr}; max-age=60; path=/`;
+	}
+
+	getAll() {
+		const data = this.getCookieData() || TestimonialDAO.seedData;
+		return {
+			references: data.references.map((r) => Reference.create(r)),
+			testimonials: data.testimonials.map((t) => Testimonial.create(t)),
+		};
+	}
+
+	create(testimonial, reference) {
+		const data = this.getCookieData() || TestimonialDAO.seedData;
+
+		let existingRef = data.references.find((r) => r.email === reference.email);
+		let refId = existingRef
+			? existingRef.id
+			: "ref-" + Math.random().toString(36).substring(2, 8);
+		//random six digit base 36 id generated
+
+		if (!existingRef) {
+			reference.id = refId;
+			data.references.push({
+				id: reference.id,
+				name: reference.name,
+				email: reference.email,
+				company: reference.company,
+			});
+		}
+
+		testimonial.referenceId = refId;
+		data.testimonials.push({
+			comment: testimonial.comment,
+			rating: testimonial.rating,
+			referenceId: testimonial.referenceId,
+		});
+
+		this.setCookieData(data);
+	}
+}
+
+// Select active DAO. Change to = CookieStorageTestimonialDAO to select cookies
+// const testimonialDAO = new CookieStorageTestimonialDAO();
+const testimonialDAO = new SessionStorageTestimonialDAO();
+
+//------------------------------------//
+//Service section//
+
+//----------------------------------//
+//Dom manipulation, testimonial input form and event section

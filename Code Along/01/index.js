@@ -235,6 +235,7 @@ class CookieStorageDeliveryDAO extends DeliveryDAO {
 }
 
 const deliveryDAO = new CookieStorageDeliveryDAO();
+
 // const deliveryDAO = new SessionStorageDeliveryDAO();
 
 class CreateDeliveryService {
@@ -252,6 +253,8 @@ class CreateDeliveryService {
 }
 
 const createDeliveryService = new CreateDeliveryService(productDAO, deliveryDAO);
+
+//DOM manipulation section. Form and Event Listener.
 
 const quantityInput = document.getElementById("product-quantity");
 
