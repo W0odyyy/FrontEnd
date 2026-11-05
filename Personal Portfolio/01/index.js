@@ -313,12 +313,7 @@ references.forEach((ref) => {
 
 //Average rating
 if (testimonials.length > 0) {
-	let totalRatingSum = 0;
-
-	for (let t of testimonials) {
-		totalRatingSum += t.rating;
-	}
-
+	const totalRatingSum = testimonials.reduce((sum, t) => sum + Number(t.rating), 0);
 	const averageRating = totalRatingSum / testimonials.length;
 	avgRatingHeading.innerText = `Average Rating: ${averageRating.toFixed(1)}`;
 } else {
