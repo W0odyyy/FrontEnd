@@ -66,15 +66,108 @@ class DatabaseObject {
 	}
 }
 
-class Reference {
-	constructor(id, name, email, company = ""){
+class Reference extends DatabaseObject {
+	constructor(id, name, email, company = "") {
+		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.company = company;
 	}
+
+	toString() {
+		let companyText = this.company ? ` (${this.company})` : "";
+		return `${this.name}${companyText} - ${this.email}`;
+	}
+
+	static create(refData) {
+		const { id, name, email, company } = refData;
+		return new Reference(id, name, email, company);
+	}
 }
 
 class Testimonial extends DatabaseObject {
-	constructor(comment, rating, referenceId)
+	constructor(comment, rating, referenceId) {
+		super();
+		this.comment = comment;
+		this.rating = rating;
+		this.referenceId = referenceId;
+	}
+
+	toString(referenceName = "Anonymous") {
+		return `"${this.comment}" - ${referenceName} (${this.rating}/5 stars)`;
+	}
+
+	static create(testimonialData) {
+		const { comment, rating, referenceId } = testimonialData;
+		return new Testimonial(comment, rating, referenceId);
+	}
+}
+
+class TestimonialDAO {
+	static seedData = {
+		references: [
+			{
+				id: "ref-1",
+				name: window.faker.name.findName(),
+				email: window.faker.internet.email(),
+				company: window.faker.company.companyName(),
+			},
+			{
+				id: "ref-2",
+				name: window.faker.name.findName(),
+				email: window.faker.internet.email(),
+				company: window.faker.company.companyName(),
+			},
+			{
+				id: "ref-3",
+				name: window.faker.name.findName(),
+				email: window.faker.internet.email(),
+				company: window.faker.company.companyName(),
+			},
+		],
+		testimonials: [
+			{
+				comment: "Absolute pleasure working together on development projects!",
+				rating: 5,
+				referenceId: "ref-1",
+			},
+			{
+				comment: "Incredible attention to detail and appealing UI.",
+				rating: 5,
+				referenceId: "ref-2",
+			},
+			{
+				comment: "Reliable and delivers high-quality work on time",
+				rating: 5,
+				referenceId: "ref-3",
+			},
+		],
+	};
+
+	getAll() {
+		throw new Error("Not Implemented");
+	}
+	create(testimonial, reference) {
+		throw new Error("Not Implemented");
+	}
+}
+
+class SessionStorageTestimonialDAO extends TestimonialDAO {
+	constructor() {
+		super();
+		this.database = sessionStorage;
+		if (!this.database.getItem("portfolio_data")) {
+			this.database.setItem("portfolio_data", JSON.stringify(TestimonialDAO.seedData));
+		}
+	}
+
+	getAll() {
+		const dataJSON = this.database.getItem("portfolio_data");
+		const data = dataJSON ? JSON.parse(dataJSON) : TestimonialDAO.seedData;
+
+		return {
+			references: data.references.map,
+		};
+	}
 }
