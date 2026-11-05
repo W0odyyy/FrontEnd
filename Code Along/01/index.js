@@ -59,7 +59,7 @@ class Product extends DatabaseObject {
 	}
 
 	toString() {
-		return "$(this.name): $(inventory) left in stock";
+		return this.name + ` (${this.inventory} left in stock)`;
 	}
 
 	static create(productData) {
@@ -83,11 +83,11 @@ class Delivery extends DatabaseObject {
 	}
 
 	toString() {
-		return "Delivering ${this.quantity} of ${this.product} to ${this.address} at ${this.scheduledTime}";
+		return `Delivering ${this.quantity} of ${this.product.name} to ${this.address} at ${this.scheduledTime}`;
 	}
 }
 
-class ProductDao {
+class ProductDAO {
 	static seeds = [
 		{
 			name: "Apples",
@@ -95,7 +95,7 @@ class ProductDao {
 		},
 		{
 			name: "Bananas",
-			inventory: 90,
+			inventory: 50,
 		},
 		{
 			name: "Peaches",
@@ -112,7 +112,7 @@ class ProductDao {
 	}
 }
 
-class SessionStorageProductDAO extends ProductDao {
+class SessionStorageProductDAO extends ProductDAO {
 	constructor() {
 		super();
 		this.database = sessionStorage;
@@ -148,14 +148,6 @@ class CookieStorageProductDAO extends ProductDAO {
 		super();
 		this.database = sessionStorage;
 		//this.database = document.cookie;
-		// this.database.setItem("products", JSON.stringify(productsList));
-	}
-}
-
-class CookieStorageProductDAO extends ProductDAO {
-	constructor() {
-		super();
-		this.database = sessionStorage;
 		// this.database.setItem("products", JSON.stringify(ProductDAO.seeds));
 	}
 

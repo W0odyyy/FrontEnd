@@ -59,3 +59,22 @@ projectItems.forEach((projectItem) => {
 });
 
 projectsDiv.appendChild(projectList);
+
+class DatabaseObject {
+	toString() {
+		throw new Error("Not Implemented");
+	}
+}
+
+class Reference {
+	constructor(id, name, email, company = ""){
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.company = company;
+	}
+}
+
+class Testimonial extends DatabaseObject {
+	constructor(comment, rating, referenceId)
+}
