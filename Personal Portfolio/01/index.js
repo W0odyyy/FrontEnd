@@ -261,7 +261,7 @@ class CookieStorageTestimonialDAO extends TestimonialDAO {
 }
 
 // Select active DAO. Change to = CookieStorageTestimonialDAO to select cookies
-// const testimonialDAO = new CookieStorageTestimonialDAO();
+//const testimonialDAO = new CookieStorageTestimonialDAO();
 const testimonialDAO = new SessionStorageTestimonialDAO();
 
 //------------------------------------
