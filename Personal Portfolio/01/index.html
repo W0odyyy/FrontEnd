@@ -118,6 +118,54 @@
 					<button>Contact Me!</button>
 				</form>
 			</div>
+			<section id="testimonials-section">
+				<h2>References</h2>
+				<h3 id="average-rating-heading">Average Rating:</h3>
+				<ul id="references-list"></ul>
+				<h3>Add a Testimonial and Reference</h3>
+				<form id="testimonial-form">
+					<div class="form-group">
+						<label for="name">Name</label>
+						<input type="text" id="name" name="name" placeholder="Your Name" required />
+					</div>
+					<div class="form-group">
+						<label for="email">Email</label>
+						<input
+							type="email"
+							id="name"
+							name="email"
+							placeholder="Your Email"
+							required
+						/>
+					</div>
+					<div class="form-group">
+						<label for="company">Company (Optional)</label>
+						<input type="text" id="company" name="company" placeholder="Your Company" />
+					</div>
+					<div class="form-group">
+						<label for="comment">Comment</label>
+						<textarea
+							id="comment"
+							name="comment"
+							placeholder="Your testimonial"
+							required
+						></textarea>
+					</div>
+					<div class="form-group">
+						<label for="rating">Rating</label>
+						<input
+							type="number"
+							id="rating"
+							name="rating"
+							min="0"
+							max="5"
+							value="5"
+							required
+						/>
+					</div>
+					<button type="submit">Submit Testimonial</button>
+				</form>
+			</section>
 		</main>
 
 		<footer>&copy; 2026 Neal's Portfolio</footer>

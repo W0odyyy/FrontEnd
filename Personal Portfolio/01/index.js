@@ -264,8 +264,83 @@ class CookieStorageTestimonialDAO extends TestimonialDAO {
 // const testimonialDAO = new CookieStorageTestimonialDAO();
 const testimonialDAO = new SessionStorageTestimonialDAO();
 
-//------------------------------------//
+//------------------------------------
 //Service section//
+class CreateTestimonialService {
+	constructor(dao) {
+		this.dao = dao;
+	}
 
-//----------------------------------//
+	createTestimonial(comment, rating, name, email, company) {
+		const newTestimonial = new Testimonial(comment, rating, null);
+		const newReference = new Reference(null, name, email, company);
+		this.dao.create(newTestimonial, newReference);
+	}
+}
+
+const createTestimonialService = new CreateTestimonialService(testimonialDAO);
+
+//----------------------------------
 //Dom manipulation, testimonial input form and event section
+
+const referencesListEl = document.getElementById("references-list");
+const avgRatingHeading = document.getElementById("average-rating-heading");
+
+const databaseData = testimonialDAO.getAll();
+const references = databaseData.references;
+const testimonials = databaseData.testimonials;
+
+references.forEach((ref) => {
+	const refListItem = document.createElement("li");
+	refListItem.className = "reference-item";
+
+	let companyText = ref.company ? ` (${ref.company})` : "";
+	refListItem.innerHTML = `<strong>${ref.name}</strong>${companyText} - <em>${ref.email}</em>`;
+
+	const nestedUl = document.createElement("ul");
+
+	const refTestimonials = testimonials.filter((t) => t.referenceId === ref.id);
+
+	refTestimonials.forEach((t) => {
+		const tListItem = document.createElement("li");
+		tListItem.innerText = t.toString(ref.name);
+		nestedUl.appendChild(tListItem);
+	});
+
+	refListItem.appendChild(nestedUl);
+	referencesListEl.appendChild(refListItem);
+});
+
+//Average rating
+if (testimonials.length > 0) {
+	let totalRatingSum = 0;
+
+	for (let t of testimonials) {
+		totalRatingSum += t.rating;
+	}
+
+	const averageRating = totalRatingSum / testimonials.length;
+	avgRatingHeading.innerText = `Average Rating: ${averageRating.toFixed(1)}`;
+} else {
+	avgRatingHeading.innerText = `Average Rating: 0.0`;
+}
+
+//Form submission
+const testimonialForm = document.getElementById("testimonial-form");
+
+testimonialForm.addEventListener("submit", (event) => {
+	event.preventDefault();
+
+	const submittedFormData = new FormData(testimonialForm);
+	const formData = Object.fromEntries(submittedFormData.entries());
+
+	const name = formData["name"];
+	const email = formData["email"];
+	const company = formData["company"];
+	const comment = formData["comment"];
+	const rating = formData["rating"];
+
+	createTestimonialService.createTestimonial(comment, rating, name, email, company);
+
+	window.location.reload();
+});
