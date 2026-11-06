@@ -576,6 +576,11 @@ video {
   margin-right: 25rem;
 }
 
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
 .mb-6 {
   margin-bottom: 1.5rem;
 }
@@ -604,6 +609,10 @@ video {
   max-height: 200px;
 }
 
+.max-h-\[60px\] {
+  max-height: 60px;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
@@ -624,6 +633,10 @@ video {
   cursor: pointer;
 }
 
+.list-none {
+  list-style-type: none;
+}
+
 .flex-col {
   flex-direction: column;
 }
@@ -634,6 +647,12 @@ video {
 
 .justify-center {
   justify-content: center;
+}
+
+.space-y-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1rem * var(--tw-space-y-reverse));
 }
 
 .overflow-hidden {
