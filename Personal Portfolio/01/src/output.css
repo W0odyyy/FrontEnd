@@ -726,12 +726,21 @@ video {
   padding-right: 1rem;
 }
 
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
 .text-center {
   text-align: center;
 }
 
 .font-sans {
   font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.font-\[\'Montserrat\'\] {
+  font-family: 'Montserrat';
 }
 
 .text-sm {
@@ -742,6 +751,11 @@ video {
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 .font-semibold {
@@ -804,6 +818,13 @@ video {
 .hover\:bg-\[\#d4a373\]:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(212 163 115 / var(--tw-bg-opacity, 1));
+}
+
+@media (min-width: 768px) {
+  .md\:text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
 }
 
 .\[\&\.active\]\:max-h-\[200px\].active {
