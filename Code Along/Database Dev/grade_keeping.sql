@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 23, 2026 at 08:47 PM
+-- Generation Time: Nov 23, 2026 at 09:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -76,7 +76,7 @@ CREATE TABLE `student` (
 -- Indexes for table `absence`
 --
 ALTER TABLE `absence`
-  ADD PRIMARY KEY (`student_id`);
+  ADD PRIMARY KEY (`student_id`,`date`);
 
 --
 -- Indexes for table `grade_event`
@@ -134,6 +134,7 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
 CREATE USER IF NOT EXISTS `teacher_assistant`@`localhost` IDENTIFIED BY 'password';
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON `grade\_keeping`.* TO `teacher_assistant`@`%`;
