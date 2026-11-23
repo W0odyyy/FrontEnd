@@ -128,7 +128,7 @@ ALTER TABLE `absence`
 --
 ALTER TABLE `score`
   ADD CONSTRAINT `score_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`),
-  ADD CONSTRAINT `score_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `grade_event` (`event_id`);
+  ADD CONSTRAINT `event_id` FOREIGN KEY (`event_id`) REFERENCES `grade_event` (`event_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
@@ -137,4 +137,4 @@ COMMIT;
 
 CREATE USER IF NOT EXISTS `teacher_assistant`@`localhost` IDENTIFIED BY 'password';
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON `grade\_keeping`.* TO `teacher_assistant`@`%`;
+GRANT SELECT, INSERT, UPDATE, DELETE ON `grade_keeping`.* TO `teacher_assistant`@`localhost`;
