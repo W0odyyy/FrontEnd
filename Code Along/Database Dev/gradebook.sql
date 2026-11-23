@@ -89,7 +89,7 @@ ALTER TABLE `grade_event`
 --
 ALTER TABLE `score`
   ADD PRIMARY KEY (`student_id`,`event_id`),
-  ADD KEY `score_ibfk_2` (`event_id`);
+  ADD KEY `event_id` (`event_id`);
 
 --
 -- Indexes for table `student`
@@ -128,7 +128,7 @@ ALTER TABLE `absence`
 --
 ALTER TABLE `score`
   ADD CONSTRAINT `score_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`),
-  ADD CONSTRAINT `event_id` FOREIGN KEY (`event_id`) REFERENCES `grade_event` (`event_id`);
+  ADD CONSTRAINT `score_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `grade_event` (`event_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
